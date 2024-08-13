@@ -138,7 +138,7 @@
 137=last_stolen_from_stall_spice
 138=last_stolen_from_stall_gem
 139=legends_progress
-140=book_page
+140=varp_140
 141=gnome_bar_progress
 142=gnome_restaurant_progress
 143=gnomeball
@@ -147,7 +147,7 @@
 146=phoenixgang_progress
 147=zanaris_progress
 148=crest_progress
-149=open_book
+149=crest_levers
 150=grandtree_progress
 151=daconia_rock_root
 152=femi_help
@@ -218,8 +218,8 @@
 217=varp_217
 218=varp_218
 219=varp_219
-220=varp_220
-221=varp_221
+220=book_page
+221=open_book
 222=demon_progress
 223=hazeelcult_progress
 224=hazeelcult_valves
