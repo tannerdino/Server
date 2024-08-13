@@ -156,31 +156,32 @@ const ScriptOpcodePointers: {
         set2: ['active_npc2'],
         conditional: true
     },
+    [ScriptOpcode.NPC_HASOP]: {
+        require: ['active_npc'],
+        require2: ['active_npc2'],
+    },
     [ScriptOpcode.IF_CLOSE]: {
         require: ['active_player'],
         require2: ['active_player2']
     },
-    [ScriptOpcode.IF_CLOSESTICKY]: {
-        require: ['active_player']
-    },
-    [ScriptOpcode.IF_MULTIZONE]: {
+    [ScriptOpcode.TUT_CLOSE]: {
         require: ['active_player']
     },
     [ScriptOpcode.IF_OPENCHAT]: {
         require: ['active_player']
     },
-    [ScriptOpcode.IF_OPENCHATSTICKY]: {
+    [ScriptOpcode.TUT_OPEN]: {
         require: ['active_player']
     },
-    [ScriptOpcode.IF_OPENMAINMODAL]: {
+    [ScriptOpcode.IF_OPENMAIN]: {
         require: ['active_player'],
         require2: ['active_player2']
     },
-    [ScriptOpcode.IF_OPENMAINMODALSIDEOVERLAY]: {
+    [ScriptOpcode.IF_OPENMAIN_SIDE]: {
         require: ['active_player'],
         require2: ['active_player2']
     },
-    [ScriptOpcode.IF_OPENSIDEOVERLAY]: {
+    [ScriptOpcode.IF_OPENSIDE]: {
         require: ['active_player']
     },
     [ScriptOpcode.IF_SETANIM]: {
@@ -221,7 +222,7 @@ const ScriptOpcodePointers: {
         require: ['active_player'],
         require2: ['active_player2']
     },
-    [ScriptOpcode.IF_SETTABFLASH]: {
+    [ScriptOpcode.TUT_FLASH]: {
         require: ['active_player']
     },
     [ScriptOpcode.IF_SETTEXT]: {
@@ -661,6 +662,22 @@ const ScriptOpcodePointers: {
     },
     [ScriptOpcode.NPC_ATTACKRANGE]: {
         require: ['active_npc'],
+        require2: ['active_npc2']
+    },
+    [ScriptOpcode.NPC_ARRIVEDELAY]: {
+        require: ['active_npc'],
+        corrupt: [
+            'p_active_player',
+            'p_active_player2',
+            ...POINTER_GROUP_FIND,
+            'last_com',
+            'last_int',
+            'last_item',
+            'last_slot',
+            'last_targetslot',
+            'last_useitem',
+            'last_useslot'
+        ],
         require2: ['active_npc2']
     },
 

@@ -13,15 +13,14 @@ import ClientSocket from '#lostcity/server/ClientSocket.js';
 import ClientProtRepository from '#lostcity/network/225/incoming/prot/ClientProtRepository.js';
 import ClientProt from '#lostcity/network/225/incoming/prot/ClientProt.js';
 import { Position } from './Position.js';
-import MoveSpeed from './MoveSpeed.js';
 import ZoneMap from '#lostcity/engine/zone/ZoneMap.js';
 import Zone from '#lostcity/engine/zone/Zone.js';
 import InvType from '#lostcity/cache/config/InvType.js';
 import IfClose from '#lostcity/network/outgoing/model/IfClose.js';
-import IfOpenMainSideModal from '#lostcity/network/outgoing/model/IfOpenMainSideModal.js';
-import IfOpenMainModal from '#lostcity/network/outgoing/model/IfOpenMainModal.js';
-import IfOpenChatModal from '#lostcity/network/outgoing/model/IfOpenChatModal.js';
-import IfOpenSideModal from '#lostcity/network/outgoing/model/IfOpenSideModal.js';
+import IfOpenMainSide from '#lostcity/network/outgoing/model/IfOpenMainSide.js';
+import IfOpenMain from '#lostcity/network/outgoing/model/IfOpenMain.js';
+import IfOpenChat from '#lostcity/network/outgoing/model/IfOpenChat.js';
+import IfOpenSide from '#lostcity/network/outgoing/model/IfOpenSide.js';
 import RebuildNormal from '#lostcity/network/outgoing/model/RebuildNormal.js';
 import UpdateStat from '#lostcity/network/outgoing/model/UpdateStat.js';
 import UpdateRunEnergy from '#lostcity/network/outgoing/model/UpdateRunEnergy.js';
@@ -94,26 +93,26 @@ export class NetworkPlayer extends Player {
             return;
         }
 
-        if (this.modalTop !== this.lastModalTop || this.modalBottom !== this.lastModalBottom || this.modalSidebar !== this.lastModalSidebar || this.refreshModalClose) {
+        if (this.modalMain !== this.lastModalMain || this.modalChat !== this.lastModalChat || this.modalSide !== this.lastModalSide || this.refreshModalClose) {
             if (this.refreshModalClose) {
                 this.write(new IfClose());
             }
             this.refreshModalClose = false;
 
-            this.lastModalTop = this.modalTop;
-            this.lastModalBottom = this.modalBottom;
-            this.lastModalSidebar = this.modalSidebar;
+            this.lastModalMain = this.modalMain;
+            this.lastModalChat = this.modalChat;
+            this.lastModalSide = this.modalSide;
         }
 
         if (this.refreshModal) {
-            if ((this.modalState & 1) === 1 && (this.modalState & 4) === 4) {
-                this.write(new IfOpenMainSideModal(this.modalTop, this.modalSidebar));
-            } else if ((this.modalState & 1) === 1) {
-                this.write(new IfOpenMainModal(this.modalTop));
-            } else if ((this.modalState & 2) === 2) {
-                this.write(new IfOpenChatModal(this.modalBottom));
-            } else if ((this.modalState & 4) === 4) {
-                this.write(new IfOpenSideModal(this.modalSidebar));
+            if ((this.modalState & 1) !== 0 && (this.modalState & 4) !== 0) {
+                this.write(new IfOpenMainSide(this.modalMain, this.modalSide));
+            } else if ((this.modalState & 1) !== 0) {
+                this.write(new IfOpenMain(this.modalMain));
+            } else if ((this.modalState & 2) !== 0) {
+                this.write(new IfOpenChat(this.modalChat));
+            } else if ((this.modalState & 4) !== 0) {
+                this.write(new IfOpenSide(this.modalSide));
             }
 
             this.refreshModal = false;
@@ -220,9 +219,11 @@ export class NetworkPlayer extends Player {
             info.unlink();
         }
 
-        if (this.moveSpeed === MoveSpeed.INSTANT && this.jump) {
+        // no need to rebuild upon telejump anymore.
+        // causes u to full follows zones which is wrong.
+        /*if (this.moveSpeed === MoveSpeed.INSTANT && this.jump) {
             loadedZones.clear();
-        }
+        }*/
 
         // update any newly tracked zones
         activeZones.clear();
@@ -276,11 +277,11 @@ export class NetworkPlayer extends Player {
     }
 
     updatePlayers() {
-        this.write(new PlayerInfo(this.buildArea, this.level, this.x, this.z, this.originX, this.originZ, this.uid, this.mask, this.tele, this.jump, this.walkDir, this.runDir, Math.abs(this.lastX - this.x), Math.abs(this.lastZ - this.z), this.lastLevel !== this.level));
+        this.write(new PlayerInfo(this.buildArea, this.level, this.x, this.z, this.originX, this.originZ, this.uid, this.mask, this.tele, this.jump, this.walkDir, this.runDir, Math.abs(this.lastTickX - this.x), Math.abs(this.lastTickZ - this.z), this.lastLevel !== this.level));
     }
 
     updateNpcs() {
-        this.write(new NpcInfo(this.buildArea, this.level, this.x, this.z, this.originX, this.originZ, Math.abs(this.lastX - this.x), Math.abs(this.lastZ - this.z), this.lastLevel !== this.level));
+        this.write(new NpcInfo(this.buildArea, this.level, this.x, this.z, this.originX, this.originZ, Math.abs(this.lastTickX - this.x), Math.abs(this.lastTickZ - this.z), this.lastLevel !== this.level));
     }
 
     updateZones() {
