@@ -181,6 +181,8 @@ scope=perm
 [gnome_restaurant_progress]
 scope=perm
 
+[varp_140]
+
 [book_page]
 
 [gnomeball]
@@ -246,10 +248,6 @@ transmit=yes
 [varp_218]
 
 [varp_219]
-
-[varp_220]
-
-[varp_221]
 
 [gnome_drink_ingredient1]
 type=obj

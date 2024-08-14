@@ -1,2 +1,5 @@
 [crest_progress]
 scope=perm
+
+[crest_levers]
+scope=perm
