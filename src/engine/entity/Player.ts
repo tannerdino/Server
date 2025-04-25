@@ -1380,7 +1380,7 @@ export default class Player extends PathingEntity {
             return null;
         }
 
-        if (invType.scope === InvType.SCOPE_SHARED) {
+        if (invType.scope === InvType.SCOPE_SHARED || invType.scope === InvType.SCOPE_PERMSHARED) {
             container = World.getInventory(inv);
         } else {
             container = this.invs.get(inv);

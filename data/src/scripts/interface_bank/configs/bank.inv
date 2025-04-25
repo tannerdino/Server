@@ -1,4 +1,4 @@
 [bank]
-scope=perm
+scope=permshared
 size=^bank_total_slots
 stackall=yes

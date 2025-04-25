@@ -11,6 +11,7 @@ export default class InvType extends ConfigType {
     static SCOPE_TEMP = 0;
     static SCOPE_PERM = 1;
     static SCOPE_SHARED = 2;
+    static SCOPE_PERMSHARED = 3;
 
     // commonly referenced in-engine
     static INV = -1;

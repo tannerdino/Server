@@ -61,6 +61,8 @@ export function parseInvConfig(key: string, value: string): ConfigValue | null |
             return InvType.SCOPE_PERM;
         } else if (value === 'temp') {
             return InvType.SCOPE_TEMP;
+        } else if (value === 'permshared') {
+            return InvType.SCOPE_PERMSHARED;
         } else {
             return null;
         }
